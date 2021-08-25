@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="732f644d-5d63-46c3-8559-c04e7da71c53" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="a2e2192b-51e8-46ab-9a50-6ab93068e30d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="onpremise-deplymnt-demoFlow" doc:id="5f551275-9af0-4384-8dee-ec454af1fd97" >
+		<http:listener doc:name="Hello World GET" doc:id="f27a9299-4d57-4384-afff-7919ad7e1da5" config-ref="HTTP_Listener_config1" path="/helloworld"/>
+		<set-variable value="1232" doc:name="order-id" doc:id="4a6cbc0f-b0f8-4438-addf-b4536b5347d6" variableName="name"/>
+		<tracking:custom-event doc:name="Custom Business Event" doc:id="0513e55c-3aa9-47b7-8386-d458a90866b4" event-name="order-id">
+			<tracking:meta-data key="order-id" value="#[vars.name]" />
+		</tracking:custom-event>
+		<logger level="INFO" doc:name="Logger" doc:id="47b938d4-879e-4a20-bbcf-e8f0ab07d935" message="this is hellooooo world app"/>
+	</flow>
+</mule>
